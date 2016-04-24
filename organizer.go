@@ -24,7 +24,6 @@ func main() {
 		log.Fatal("No photos found")
 	}
 	organizePhotos(photosPaths)
-	println("Photos to analyse: ", len(photosPaths))
 }
 
 func getPhotos(path string) ([]string, error) {
@@ -52,8 +51,6 @@ type googleGeocodeResponse struct {
 }
 
 func organizePhotos(paths []string) {
-	// Optionally register camera makenote data parsing - currently Nikon and
-	// Canon are supported.
 	var wg sync.WaitGroup
 	for _, p := range paths {
 		wg.Add(1)
@@ -94,7 +91,19 @@ func organizePhotos(paths []string) {
 					}
 				}
 			}
-			fmt.Printf("City: %s\n", city)
+			if city != "" {
+				err = os.Mkdir(city, 0644)
+				if err != nil && !os.IsExist(err) {
+					log.Println(err)
+					return
+				}
+				_, filename := filepath.Split(path)
+				err = os.Rename(path, fmt.Sprintf("%s/%s", city, filename))
+				if err != nil {
+					log.Println(err)
+					return
+				}
+			}
 		}(p)
 	}
 	wg.Wait()
