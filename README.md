@@ -3,7 +3,7 @@ Photo Organizer
 
 Single binary to organize a bunch of photos by city they was taken.
 
-    $ ./orgnazier <folder to organize>
+    $ ./bin/organizer_<SO>_amd64 <folder to organize>
 
 
 ## TODO
