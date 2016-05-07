@@ -3,12 +3,13 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/kellydunn/golang-geo"
-	"github.com/rwcarlsen/goexif/exif"
 	"log"
 	"os"
 	"path/filepath"
 	"sync"
+
+	"github.com/kellydunn/golang-geo"
+	"github.com/rwcarlsen/goexif/exif"
 )
 
 func main() {
@@ -92,7 +93,7 @@ func organizePhotos(paths []string) {
 				}
 			}
 			if city != "" {
-				err = os.Mkdir(city, 0644)
+				err = os.Mkdir(city, 0664)
 				if err != nil && !os.IsExist(err) {
 					log.Println(err)
 					return
